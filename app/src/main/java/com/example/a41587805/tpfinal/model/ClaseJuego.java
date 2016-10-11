@@ -15,6 +15,7 @@ import org.cocos2d.types.CCPoint;
 import org.cocos2d.types.CCSize;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -92,6 +93,15 @@ public class ClaseJuego {
             };
             Timer Reloj= new Timer();
             Reloj.schedule(PonerUnaLetra, 0, 1000);
+
+            TimerTask VerificarImpactos=new TimerTask() {
+                @Override
+                public void run() {
+                    detectarColisiones();
+                }
+            };
+            Timer RelojVerificarImpactos= new Timer();
+            RelojVerificarImpactos.schedule(VerificarImpactos,0,1000);
 
         }
         private void  PonerPersonaPosicionInicial()
@@ -283,6 +293,27 @@ public class ClaseJuego {
             devolver= false;
         }
         return devolver;
+    }
+
+    void detectarColisiones()
+    {
+        boolean HuboColision= false;
+        for (Sprite LetraVerif: arrEnemigos)
+        {
+            if(InterseccionEntreSprites(Letra, LetraVerif))
+            {
+                HuboColision= true;
+            }
+        }
+        if (HuboColision== true)
+        {
+            Log.d("Detectar colision", "hubo colision");
+        }
+        else
+        {
+            Log.d("Detectar colision", " No hubo colision");
+        }
+
     }
 
 
