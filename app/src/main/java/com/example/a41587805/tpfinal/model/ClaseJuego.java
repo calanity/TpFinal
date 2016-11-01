@@ -174,10 +174,10 @@ public class ClaseJuego {
         }
 
         public void PonerPuntaje() {
-            contador++;
-            puntosJuego = Label.label("Letras agarradas" + contador, "Verdana", 50);
-            float AltoDelTitulo = puntosJuego.getHeight();
             super.removeChild(puntosJuego, true);
+            contador++;
+            puntosJuego = Label.label("Letras agarradas " + contador, "Verdana", 50);
+            float AltoDelTitulo = puntosJuego.getHeight();
             puntosJuego.setPosition(PantallaDelDispositivo.width / 2, PantallaDelDispositivo.height - AltoDelTitulo / 2);
             super.addChild(puntosJuego);
 
@@ -185,8 +185,11 @@ public class ClaseJuego {
 
         public void PonerLetra() {
             float PosicionFinalX, PosicionFinalY;
+            //armar array de letras y que segun el caso, segun la que elije
+            Random random= new Random();
+            int let = random.nextInt(22);
+            Letra = Sprite.sprite(Letra+".png");
 
-            Letra = Sprite.sprite("letra.png");
             float alturaLetra = Letra.getHeight();
             float anchoLetra = Letra.getWidth();
 
