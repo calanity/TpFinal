@@ -1,5 +1,6 @@
 package com.example.a41587805.tpfinal.model;
 
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -18,6 +19,7 @@ import org.cocos2d.types.CCSize;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -31,12 +33,20 @@ public class ClaseJuego {
     String letr ;
     Label tituloJuego, puntosJuego;
     ArrayList<Sprite>arrEnemigos;
+    ArrayList<Palabra>palabras;
+    ArrayList<letra> letras;
+    Rect colision;
     int contador;
 
         public ClaseJuego(CCGLSurfaceView VistaDelJuego)
         {
             Log.d("bob" , "comienza el juego");
             _VistaDelJuego =VistaDelJuego;
+            colision= new Rect();
+            letras = new ArrayList<letra>();
+            for(letra let : letras){
+                let.setLetra("letra"+ String.valueOf(let)+".png");
+            }
         }
     public void ComenzarJuego()
     {
@@ -46,6 +56,31 @@ public class ClaseJuego {
         PantallaDelDispositivo= Director.sharedDirector().displaySize();
 
         Director.sharedDirector().runWithScene(Inicio());
+
+    }
+    public void CargoLetras()
+    {
+        letra letr= new letra();
+        letr.setLetra("א");
+        letras.add(letr);
+        letr.setLetra("ב");
+        letras.add(letr);
+        letr.setLetra("ג");
+        letras.add(letr);
+        letr.setLetra("ד");
+        letras.add(letr);
+        letr.setLetra("ה");
+        letras.add(letr);
+        letr.setLetra("ו");
+        letras.add(letr);
+        letr.setLetra("ז");
+        letras.add(letr);
+        letr.setLetra("ח");
+        letras.add(letr);
+        letr.setLetra("ט");
+        letras.add(letr);
+        letr.setLetra("י");
+
 
     }
 
@@ -64,6 +99,7 @@ public class ClaseJuego {
         public CapaFondo()
         {
            PonerImagenFondo();
+
 
         }
 
@@ -84,7 +120,13 @@ public class ClaseJuego {
         public CapaJuego() {
             //jhkikhkhjh
             PonerPersonaPosicionInicial();
+            palabras= new ArrayList<>();
+            CargarPalabras();
+            PonerTituloJuego();
+
+
             arrEnemigos = new ArrayList<>();
+
 
             TimerTask PonerUnaLetra = new TimerTask() {
                 @Override
@@ -99,14 +141,33 @@ public class ClaseJuego {
                 @Override
                 public void run() {
                     detectarColisiones();
+                    //colision.set(Math.round(Letra.getPositionX()), Math.round(Letra.getPositionY(), Letra.getPositionX()+Letra.getWidth(), Letra.getPositionY()+Letra.getHeight());
                 }
             };
             Timer RelojVerificarImpactos = new Timer();
-            RelojVerificarImpactos.schedule(VerificarImpactos, 0, 1000);
+            RelojVerificarImpactos.schedule(VerificarImpactos, 0, 200);
             this.setIsTouchEnabled(true);
+
+
 
         }
 
+        public  void CargarPalabras()
+        {
+
+            Palabra pal= new Palabra();
+            pal.setId(0);
+            pal.setPalabra("בית");
+            palabras.add(pal);
+            pal.setId(1);
+            pal.setPalabra("ילד");
+            palabras.add(pal);
+            pal.setId(2);
+            pal.setPalabra("ספר");
+            palabras.add(pal);
+
+
+        }
         public boolean ccTouchesBegan(MotionEvent event) {
             Log.d("tocuhes comienza:", "x:" + event.getX() + "Y:" + event.getY());
             return true;
@@ -138,7 +199,6 @@ public class ClaseJuego {
             posicionFinalY = PersonaJugador.getPositionY() + vertical;
 
             if (posicionFinalX < PersonaJugador.getWidth() / 2) {
-                //posicionFinalX= PersonaJugador.getWidth()/2;
                 posicionFinalX = PersonaJugador.getWidth() / 2;
                 Log.d("desplazamiento", "se fue por la izquierda");
             }
@@ -167,7 +227,11 @@ public class ClaseJuego {
         }
 
         public void PonerTituloJuego() {
-            tituloJuego = Label.label("Bienvenido", "Verdana", 30);
+            Palabra palabra= new Palabra();
+            Random random= new Random();
+            int let = random.nextInt(1);
+            palabra= palabras.get(let);
+            tituloJuego = Label.label("Palabra: " +palabra.getPalabra() +" " + contador, "Verdana", 50);
             float AltoDelTitulo = tituloJuego.getHeight();
             tituloJuego.setPosition(PantallaDelDispositivo.width / 2, PantallaDelDispositivo.height - AltoDelTitulo / 2);
             super.addChild(tituloJuego);
@@ -187,8 +251,15 @@ public class ClaseJuego {
             float PosicionFinalX, PosicionFinalY;
             //armar array de letras y que segun el caso, segun la que elije
             Random random= new Random();
-            int let = random.nextInt(22);
-            Letra = Sprite.sprite(Letra+".png");
+            int let = random.nextInt(21);
+           /* for(letra letr : letras){
+                Letra = Sprite.sprite("letra"+ String.valueOf(let)+".png");
+                letras.add(new letra(Letra, ));
+            }*/
+            let++;
+            Letra = Sprite.sprite("letra"+ String.valueOf(let)+".png");
+            //Log.d("letra","letra"+ String.valueOf(let)+".png");
+            //Letra = Sprite.sprite("letra4.png");
 
             float alturaLetra = Letra.getHeight();
             float anchoLetra = Letra.getWidth();
@@ -198,12 +269,13 @@ public class ClaseJuego {
             Random generadorDeAzar = new Random();
 
             PosicionInicial.x = generadorDeAzar.nextInt((int) (PantallaDelDispositivo.width - anchoLetra / 2));
-            Letra.setPosition(PosicionInicial.x, PosicionInicial.y);
+            Letra.setPosition(PosicionInicial.x , PosicionInicial.y);
 
             PosicionFinalX = PosicionInicial.x - 10;
             PosicionFinalY = -150f;
             Letra.runAction(MoveTo.action(3, PosicionFinalX, PosicionFinalY));
             arrEnemigos.add(Letra);
+
             addChild(Letra);
 
         }
@@ -330,6 +402,7 @@ public class ClaseJuego {
                 NumeroMayor = NumeroMenor;
                 NumeroMenor = aux;
             }
+
             if (NumeroAComparar >= NumeroMenor && NumeroAComparar <= NumeroMayor) {
                 devolver = true;
             } else {
@@ -340,14 +413,24 @@ public class ClaseJuego {
 
         void detectarColisiones() {
             boolean HuboColision = false;
+            Sprite letraColisionada=Sprite.sprite("letra1.png") ;
             for (Sprite LetraVerif : arrEnemigos) {
                 if (InterseccionEntreSprites(PersonaJugador, LetraVerif)) {
                     HuboColision = true;
+                    letraColisionada = LetraVerif;
+
                 }
             }
+
             if (HuboColision == true) {
                 Log.d("Detectar colision", "hubo colision");
                 PonerPuntaje();
+                //this.removeChild(Letra, true);
+                if (letraColisionada != null) {
+                    arrEnemigos.remove(letraColisionada);
+                }
+
+
             } else {
                 Log.d("Detectar colision", " No hubo colision");
             }
