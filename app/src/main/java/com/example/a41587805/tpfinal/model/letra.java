@@ -1,11 +1,20 @@
 package com.example.a41587805.tpfinal.model;
 
 import org.cocos2d.nodes.Sprite;
+import org.cocos2d.opengl.Texture2D;
 
 /**
  * Created by 41587805 on 8/11/2016.
  */
-public class letra  {
+public class letra extends Sprite
+{
+
+    public letra(Texture2D tex, Sprite textura, String letra) {
+        super(tex);
+        this.textura = textura;
+        this.letra = letra;
+    }
+
     public Sprite getTextura() {
         return textura;
     }

@@ -60,9 +60,10 @@ public class ClaseJuego {
     }
     public void CargoLetras()
     {
-        letra letr= new letra();
-        letr.setLetra("א");
-        letras.add(letr);
+        letra alef= new letra();
+        alef.setLetra("א");
+        letras.add(alef);
+        letra bet= new letra();
         letr.setLetra("ב");
         letras.add(letr);
         letr.setLetra("ג");
