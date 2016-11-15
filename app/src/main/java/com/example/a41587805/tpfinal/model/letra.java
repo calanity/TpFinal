@@ -6,22 +6,22 @@ import org.cocos2d.opengl.Texture2D;
 /**
  * Created by 41587805 on 8/11/2016.
  */
-public class letra extends Sprite
+public class letra
 {
+    Sprite sprite;
+    String letra;
+    int id;
 
-    public letra(Texture2D tex, Sprite textura, String letra) {
-        super(tex);
-        this.textura = textura;
+    public letra(String imagenPath, String letra) {
+
+        this.sprite = Sprite.sprite(imagenPath);
         this.letra = letra;
     }
 
-    public Sprite getTextura() {
-        return textura;
+    public Sprite getSprite() {
+        return sprite;
     }
 
-    public void setTextura(Sprite textura) {
-        this.textura = textura;
-    }
 
     public String getLetra() {
         return letra;
@@ -31,8 +31,18 @@ public class letra extends Sprite
         this.letra = letra;
     }
 
-    Sprite textura;
-    String letra;
+    public boolean esIgual(letra l2) {
+        return letra.equals(l2);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 
 
 }

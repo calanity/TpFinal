@@ -32,14 +32,16 @@ public class ClaseJuego {
     Sprite PersonaJugador,ImagenFondo, Letra;
     String letr ;
     Label tituloJuego, puntosJuego;
-    ArrayList<Sprite>arrEnemigos;
+    ArrayList<letra>arrEnemigos;
     ArrayList<Palabra>palabras;
     ArrayList<letra> letras;
+    Palabra PalabraElegida;
+    ArrayList<letra>PalabraMomentanea;
     Rect colision;
     int contador;
 
-        public ClaseJuego(CCGLSurfaceView VistaDelJuego)
-        {
+    public ClaseJuego(CCGLSurfaceView VistaDelJuego)
+    {
             Log.d("bob" , "comienza el juego");
             _VistaDelJuego =VistaDelJuego;
             colision= new Rect();
@@ -47,7 +49,8 @@ public class ClaseJuego {
             for(letra let : letras){
                 let.setLetra("letra"+ String.valueOf(let)+".png");
             }
-        }
+    }
+
     public void ComenzarJuego()
     {
         letr= "א";
@@ -58,29 +61,97 @@ public class ClaseJuego {
         Director.sharedDirector().runWithScene(Inicio());
 
     }
+
     public void CargoLetras()
     {
-        letra alef= new letra();
-        alef.setLetra("א");
+        letra alef= new letra("letra1.png","א");
+        alef.setId(1);
         letras.add(alef);
-        letra bet= new letra();
-        letr.setLetra("ב");
-        letras.add(letr);
-        letr.setLetra("ג");
-        letras.add(letr);
-        letr.setLetra("ד");
-        letras.add(letr);
-        letr.setLetra("ה");
-        letras.add(letr);
-        letr.setLetra("ו");
-        letras.add(letr);
-        letr.setLetra("ז");
-        letras.add(letr);
-        letr.setLetra("ח");
-        letras.add(letr);
-        letr.setLetra("ט");
-        letras.add(letr);
-        letr.setLetra("י");
+
+        letra bet= new letra("letra2.png","ב");
+        bet.setId(2);
+        letras.add(bet);
+
+        letra guimel= new letra("letra3.png","ג");
+        guimel.setId(3);
+        letras.add(guimel);
+
+        letra dalet= new letra("letra4.png","ד" );
+        dalet.setId(4);
+        letras.add(dalet);
+
+        letra hei= new letra("letra5.png","ה" );
+        hei.setId(5);
+        letras.add(hei);
+
+        letra vav= new letra("letra6.png","ו");
+        vav.setId(6);
+        letras.add(vav);
+
+        letra sain = new letra("letra7.png","ז" );
+        sain.setId(7);
+        letras.add(sain);
+
+        letra jet= new letra("letra8.png","ח" );
+        jet.setId(8);
+        letras.add(jet);
+
+        letra tet = new letra("letra9.png","ט");
+        tet.setId(9);
+        letras.add(tet);
+
+        letra iod = new letra("letra10.png","י");
+        iod.setId(10);
+        letras.add(iod);
+
+        letra jaf = new letra("letra11.png","כ");
+        iod.setId(11);
+        letras.add(jaf);
+
+        letra lamed= new letra("letra12.png", "ל");
+        lamed.setId(12);
+        letras.add(jaf);
+
+
+        letra mem= new letra("letra13.png", "מ");
+        mem.setId(13);
+        letras.add(mem);
+
+        letra nun= new letra("letra14.png","נ" );
+        nun.setId(14);
+        letras.add(nun);
+
+        letra samaj= new letra("letra15.png","ס");
+        samaj.setId(15);
+        letras.add(samaj);
+
+        letra ayin = new letra("letra16.png","ע");
+        ayin.setId(16);
+        letras.add(ayin);
+
+        letra pei = new letra("letra17.png", "פ");
+        pei.setId(17);
+        letras.add(pei);
+
+        letra tzadik = new letra("letra18.png", "צ");
+        tzadik.setId(18);
+        letras.add(tzadik);
+
+        letra kuf = new letra("letra19.png","ק" );
+        tzadik.setId(19);
+        letras.add(kuf);
+
+        letra resh = new letra("letra20.png", "ר");
+        resh.setId(20);
+        letras.add(resh);
+
+        letra shin = new letra("letra21.png", "ש");
+        shin.setId(21);
+        letras.add(shin);
+
+        letra taf= new letra("letra22.png", "ת");
+        shin.setId(22);
+        letras.add(taf);
 
 
     }
@@ -115,13 +186,18 @@ public class ClaseJuego {
 
 
     }
-    class CapaJuego extends Layer {
+
+    class CapaJuego extends Layer
+    {
+
+
         float PosicionInicialX, PosicionInicialY;
 
         public CapaJuego() {
             //jhkikhkhjh
             PonerPersonaPosicionInicial();
             palabras= new ArrayList<>();
+            CargoLetras();
             CargarPalabras();
             PonerTituloJuego();
 
@@ -157,18 +233,43 @@ public class ClaseJuego {
         {
 
             Palabra pal= new Palabra();
-            pal.setId(0);
-            pal.setPalabra("בית");
-            palabras.add(pal);
             pal.setId(1);
-            pal.setPalabra("ילד");
+            pal.setPal("בית");
+            pal.addLetra(letras.get(1));
+            pal.addLetra(letras.get(9));
+            pal.addLetra(letras.get(21));
             palabras.add(pal);
-            pal.setId(2);
-            pal.setPalabra("ספר");
-            palabras.add(pal);
+
+            Palabra ieled= new Palabra();
+            ieled.setId(2);
+            pal.setPal("ילד");
+            ieled.addLetra(letras.get(9));
+            ieled.addLetra(letras.get(12));
+            ieled.addLetra(letras.get(3));
+            palabras.add(ieled);
+
+
+            Palabra sefer= new Palabra();
+            sefer.setId(3);
+            sefer.setPal("ספר");
+            sefer.addLetra(letras.get(15));
+            sefer.addLetra(letras.get(17));
+            sefer.addLetra(letras.get(20));
+            palabras.add(sefer);
+
+            Palabra kalmar= new Palabra();
+            kalmar.setId(4);
+            kalmar.setPal("קלמר");
+            kalmar.addLetra(letras.get(19));
+            kalmar.addLetra(letras.get(12));
+            kalmar.addLetra(letras.get(13));
+            kalmar.addLetra(letras.get(20));
+
+
 
 
         }
+
         public boolean ccTouchesBegan(MotionEvent event) {
             Log.d("tocuhes comienza:", "x:" + event.getX() + "Y:" + event.getY());
             return true;
@@ -230,9 +331,11 @@ public class ClaseJuego {
         public void PonerTituloJuego() {
             Palabra palabra= new Palabra();
             Random random= new Random();
-            int let = random.nextInt(1);
+            int let = random.nextInt(palabras.size());
             palabra= palabras.get(let);
-            tituloJuego = Label.label("Palabra: " +palabra.getPalabra() +" " + contador, "Verdana", 50);
+            String mostrar= palabras.get(let).getPal();
+            PalabraElegida= palabras.get(let);
+            tituloJuego = Label.label("Palabra: " + PalabraElegida.getPal()+ " " + contador, "Verdana", 50);
             float AltoDelTitulo = tituloJuego.getHeight();
             tituloJuego.setPosition(PantallaDelDispositivo.width / 2, PantallaDelDispositivo.height - AltoDelTitulo / 2);
             super.addChild(tituloJuego);
@@ -249,6 +352,7 @@ public class ClaseJuego {
         }
 
         public void PonerLetra() {
+            letra l;
             float PosicionFinalX, PosicionFinalY;
             //armar array de letras y que segun el caso, segun la que elije
             Random random= new Random();
@@ -258,7 +362,7 @@ public class ClaseJuego {
                 letras.add(new letra(Letra, ));
             }*/
             let++;
-            Letra = Sprite.sprite("letra"+ String.valueOf(let)+".png");
+            l = letras.get(let);
             //Log.d("letra","letra"+ String.valueOf(let)+".png");
             //Letra = Sprite.sprite("letra4.png");
 
@@ -275,7 +379,7 @@ public class ClaseJuego {
             PosicionFinalX = PosicionInicial.x - 10;
             PosicionFinalY = -150f;
             Letra.runAction(MoveTo.action(3, PosicionFinalX, PosicionFinalY));
-            arrEnemigos.add(Letra);
+            arrEnemigos.add(l);
 
             addChild(Letra);
 
@@ -413,20 +517,33 @@ public class ClaseJuego {
         }
 
         void detectarColisiones() {
+            int pos =-1;
             boolean HuboColision = false;
-            Sprite letraColisionada=Sprite.sprite("letra1.png") ;
-            for (Sprite LetraVerif : arrEnemigos) {
-                if (InterseccionEntreSprites(PersonaJugador, LetraVerif)) {
+            letra letraColisionada = new letra("","");
+            for (letra LetraVerif : arrEnemigos) {
+                if (InterseccionEntreSprites(PersonaJugador, LetraVerif.getSprite())) {
                     HuboColision = true;
                     letraColisionada = LetraVerif;
+                    //preugnto por la palabra elegida,si existe en que pos
+                    //agrgo a palabra momento  y comparo contra lograt
+                    pos= PalabraElegida.contieneLetra(LetraVerif);
+                    boolean comparar= PalabraElegida.comparar(PalabraMomentanea);
+
+
+
+
+
 
                 }
             }
 
+
             if (HuboColision == true) {
                 Log.d("Detectar colision", "hubo colision");
-                PonerPuntaje();
+                //PonerPuntaje();
                 //this.removeChild(Letra, true);
+
+
                 if (letraColisionada != null) {
                     arrEnemigos.remove(letraColisionada);
                 }
