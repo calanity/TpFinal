@@ -27,6 +27,7 @@ import java.util.TimerTask;
  * Created by 41587805 on 27/9/2016.
  */
 public class ClaseJuego {
+
     CCGLSurfaceView _VistaDelJuego;
     CCSize PantallaDelDispositivo;
     Sprite PersonaJugador,ImagenFondo, Letra;
@@ -39,7 +40,9 @@ public class ClaseJuego {
     ArrayList<letra>PalabraMomentanea;
     Rect colision;
     int contador;
+    letra l;
 
+    int pos;
     public ClaseJuego(CCGLSurfaceView VistaDelJuego)
     {
             Log.d("bob" , "comienza el juego");
@@ -201,6 +204,9 @@ public class ClaseJuego {
             CargarPalabras();
             PonerTituloJuego();
 
+            Palabra primera= new Palabra();
+            palabras.add(primera);
+
 
             arrEnemigos = new ArrayList<>();
 
@@ -332,10 +338,10 @@ public class ClaseJuego {
             Palabra palabra= new Palabra();
             Random random= new Random();
             int let = random.nextInt(palabras.size());
-            palabra= palabras.get(let);
+            palabra= palabras.get(let+1);
             String mostrar= palabras.get(let).getPal();
             PalabraElegida= palabras.get(let);
-            tituloJuego = Label.label("Palabra: " + PalabraElegida.getPal()+ " " + contador, "Verdana", 50);
+            tituloJuego = Label.label("Palabra: " + mostrar+ " " + contador, "Verdana", 50);
             float AltoDelTitulo = tituloJuego.getHeight();
             tituloJuego.setPosition(PantallaDelDispositivo.width / 2, PantallaDelDispositivo.height - AltoDelTitulo / 2);
             super.addChild(tituloJuego);
@@ -343,7 +349,7 @@ public class ClaseJuego {
 
         public void PonerPuntaje() {
             super.removeChild(puntosJuego, true);
-            contador++;
+            //contador++;
             puntosJuego = Label.label("Letras agarradas " + contador, "Verdana", 50);
             float AltoDelTitulo = puntosJuego.getHeight();
             puntosJuego.setPosition(PantallaDelDispositivo.width / 2, PantallaDelDispositivo.height - AltoDelTitulo / 2);
@@ -352,7 +358,7 @@ public class ClaseJuego {
         }
 
         public void PonerLetra() {
-            letra l;
+
             float PosicionFinalX, PosicionFinalY;
             //armar array de letras y que segun el caso, segun la que elije
             Random random= new Random();
@@ -366,22 +372,22 @@ public class ClaseJuego {
             //Log.d("letra","letra"+ String.valueOf(let)+".png");
             //Letra = Sprite.sprite("letra4.png");
 
-            float alturaLetra = Letra.getHeight();
-            float anchoLetra = Letra.getWidth();
+            float alturaLetra = l.getSprite().getHeight();
+            float anchoLetra =l.getSprite().getWidth();
 
             CCPoint PosicionInicial = new CCPoint();
             PosicionInicial.y = PantallaDelDispositivo.height + alturaLetra / 2;
             Random generadorDeAzar = new Random();
 
             PosicionInicial.x = generadorDeAzar.nextInt((int) (PantallaDelDispositivo.width - anchoLetra / 2));
-            Letra.setPosition(PosicionInicial.x , PosicionInicial.y);
+            l.getSprite().setPosition(PosicionInicial.x , PosicionInicial.y);
 
             PosicionFinalX = PosicionInicial.x - 10;
             PosicionFinalY = -150f;
-            Letra.runAction(MoveTo.action(3, PosicionFinalX, PosicionFinalY));
+            l.getSprite().runAction(MoveTo.action(3, PosicionFinalX, PosicionFinalY));
             arrEnemigos.add(l);
 
-            addChild(Letra);
+            addChild(l.sprite);
 
         }
 
@@ -517,36 +523,39 @@ public class ClaseJuego {
         }
 
         void detectarColisiones() {
-            int pos =-1;
+            int idLetra= l.getId();
+            String path=("letra"+idLetra+".png");
+            pos =-1;
             boolean HuboColision = false;
-            letra letraColisionada = new letra("","");
+           //letra letraColisionada = new letra(path,"f");
             for (letra LetraVerif : arrEnemigos) {
                 if (InterseccionEntreSprites(PersonaJugador, LetraVerif.getSprite())) {
                     HuboColision = true;
-                    letraColisionada = LetraVerif;
+                    //letraColisionada = LetraVerif;
                     //preugnto por la palabra elegida,si existe en que pos
                     //agrgo a palabra momento  y comparo contra lograt
                     pos= PalabraElegida.contieneLetra(LetraVerif);
-                    boolean comparar= PalabraElegida.comparar(PalabraMomentanea);
-
-
-
-
-
-
+                    if(PalabraMomentanea!=null) {
+                        boolean comparar = PalabraElegida.comparar(PalabraMomentanea);
+                        if (comparar)
+                        {
+                            tituloJuego = Label.label("hola", "Verdana",50);
+                        }
+                    }
                 }
             }
 
 
             if (HuboColision == true) {
                 Log.d("Detectar colision", "hubo colision");
+                contador++;
                 //PonerPuntaje();
-                //this.removeChild(Letra, true);
+               // this.removeChild(l.sprite, true);
 
 
-                if (letraColisionada != null) {
+               /* if (letraColisionada != null) {
                     arrEnemigos.remove(letraColisionada);
-                }
+                }*/
 
 
             } else {

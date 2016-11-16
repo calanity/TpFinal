@@ -26,8 +26,7 @@ public class Palabra implements Serializable {
         this.pal = pal;
     }
 
-    String pal;
-    int Id;
+
     public ArrayList<letra> getPalabra() {
         return palabra;
     }
@@ -45,6 +44,8 @@ public class Palabra implements Serializable {
     }
 
     ArrayList<letra> palabra;
+    String pal;
+    int Id;
 
 
     public void addLetra(letra l) {
