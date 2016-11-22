@@ -13,6 +13,7 @@ import org.cocos2d.nodes.Label;
 import org.cocos2d.nodes.Scene;
 import org.cocos2d.nodes.Sprite;
 import org.cocos2d.opengl.CCGLSurfaceView;
+import org.cocos2d.types.CCColor3B;
 import org.cocos2d.types.CCPoint;
 import org.cocos2d.types.CCSize;
 
@@ -67,91 +68,112 @@ public class ClaseJuego {
 
     public void CargoLetras()
     {
+        //0
         letra alef= new letra("letra1.png","א");
-        alef.setId(1);
+        //alef.setId(1);
         letras.add(alef);
 
+        //1
         letra bet= new letra("letra2.png","ב");
-        bet.setId(2);
+        //bet.setId(2);
         letras.add(bet);
 
+        //2
         letra guimel= new letra("letra3.png","ג");
-        guimel.setId(3);
+        //guimel.setId(3);
         letras.add(guimel);
 
+        //3
         letra dalet= new letra("letra4.png","ד" );
-        dalet.setId(4);
+        //dalet.setId(4);
         letras.add(dalet);
 
+        //4
         letra hei= new letra("letra5.png","ה" );
         hei.setId(5);
         letras.add(hei);
 
+        //5
         letra vav= new letra("letra6.png","ו");
         vav.setId(6);
         letras.add(vav);
 
+        //6
         letra sain = new letra("letra7.png","ז" );
         sain.setId(7);
         letras.add(sain);
 
+        //7
         letra jet= new letra("letra8.png","ח" );
         jet.setId(8);
         letras.add(jet);
 
+        //8
         letra tet = new letra("letra9.png","ט");
         tet.setId(9);
         letras.add(tet);
 
+        //9
         letra iod = new letra("letra10.png","י");
         iod.setId(10);
         letras.add(iod);
-
+        //10
         letra jaf = new letra("letra11.png","כ");
         iod.setId(11);
         letras.add(jaf);
 
+        //11
         letra lamed= new letra("letra12.png", "ל");
         lamed.setId(12);
         letras.add(jaf);
 
 
+        //12
         letra mem= new letra("letra13.png", "מ");
         mem.setId(13);
         letras.add(mem);
 
+        //13
         letra nun= new letra("letra14.png","נ" );
         nun.setId(14);
         letras.add(nun);
 
+        //14
         letra samaj= new letra("letra15.png","ס");
         samaj.setId(15);
         letras.add(samaj);
 
+        //15
         letra ayin = new letra("letra16.png","ע");
         ayin.setId(16);
         letras.add(ayin);
 
+        //16
         letra pei = new letra("letra17.png", "פ");
         pei.setId(17);
         letras.add(pei);
 
+        //17
         letra tzadik = new letra("letra18.png", "צ");
         tzadik.setId(18);
         letras.add(tzadik);
 
+        //18
         letra kuf = new letra("letra19.png","ק" );
         tzadik.setId(19);
         letras.add(kuf);
 
+        //19
         letra resh = new letra("letra20.png", "ר");
         resh.setId(20);
         letras.add(resh);
 
+        //20
         letra shin = new letra("letra21.png", "ש");
         shin.setId(21);
         letras.add(shin);
 
+        //21
         letra taf= new letra("letra22.png", "ת");
         shin.setId(22);
         letras.add(taf);
@@ -235,46 +257,6 @@ public class ClaseJuego {
 
         }
 
-        public  void CargarPalabras()
-        {
-
-            Palabra pal= new Palabra();
-            pal.setId(3);
-            pal.setPal("בית");
-            pal.addLetra(letras.get(1));
-            pal.addLetra(letras.get(9));
-            pal.addLetra(letras.get(21));
-            palabras.add(pal);
-
-            Palabra ieled= new Palabra();
-            ieled.setId(1);
-            pal.setPal("ילד");
-            ieled.addLetra(letras.get(9));
-            ieled.addLetra(letras.get(12));
-            ieled.addLetra(letras.get(3));
-            palabras.add(ieled);
-
-
-            Palabra sefer= new Palabra();
-            sefer.setId(2);
-            sefer.setPal("ספר");
-            sefer.addLetra(letras.get(15));
-            sefer.addLetra(letras.get(17));
-            sefer.addLetra(letras.get(20));
-            palabras.add(sefer);
-
-            /*Palabra kalmar= new Palabra();
-            kalmar.setId(3);
-            kalmar.setPal("קלמר");
-            kalmar.addLetra(letras.get(19));
-            kalmar.addLetra(letras.get(12));
-            kalmar.addLetra(letras.get(13));
-            kalmar.addLetra(letras.get(20));*/
-
-
-
-
-        }
 
         public boolean ccTouchesBegan(MotionEvent event) {
             Log.d("tocuhes comienza:", "x:" + event.getX() + "Y:" + event.getY());
@@ -334,24 +316,72 @@ public class ClaseJuego {
             super.addChild(PersonaJugador);
         }
 
+        public  void CargarPalabras()
+        {
+
+            Palabra pal= new Palabra();
+            pal.setId(3);
+            pal.setPal("בית");
+            pal.addLetra(letras.get(1));
+            pal.addLetra(letras.get(9));
+            pal.addLetra(letras.get(21));
+            palabras.add(pal);
+
+            Palabra ieled= new Palabra();
+            ieled.setId(1);
+            ieled.setPal("ילד");
+            ieled.addLetra(letras.get(9));
+            ieled.addLetra(letras.get(11));
+            ieled.addLetra(letras.get(3));
+            palabras.add(ieled);
+
+
+            Palabra sefer= new Palabra();
+            sefer.setId(2);
+            sefer.setPal("ספר");
+            sefer.addLetra(letras.get(14));
+            sefer.addLetra(letras.get(16));
+            sefer.addLetra(letras.get(19));
+            palabras.add(sefer);
+
+           /* Palabra kalmar= new Palabra();
+            kalmar.setId(0);
+            kalmar.setPal("למר");
+            kalmar.addLetra(letras.get(19));
+            kalmar.addLetra(letras.get(12));
+            kalmar.addLetra(letras.get(13));
+            kalmar.addLetra(letras.get(20));
+            palabras.add(kalmar);*/
+
+
+        }
+
+
         public void PonerTituloJuego() {
             Palabra palabra= new Palabra();
             Random random= new Random();
-            int let = random.nextInt(3) +1 ;
-            String mostrar= palabras.get(1).getPal();
-            PalabraElegida= palabras.get(1);
+            int let = random.nextInt(3)+1 ;
+            //String mostrar= palabras.get(1).getPal();
+            PalabraElegida= palabras.get(2);
+            String let0= String.valueOf(PalabraElegida.getPalabra().get(2).getLetra());
+            String let1= PalabraElegida.getPalabra().get(1).getLetra().toString();
+            String let2= PalabraElegida.getPalabra().get(0).getLetra().toString();
 
-            tituloJuego0 = Label.label(""+PalabraElegida.getPalabra().get(2).getLetra().toString(),  "Verdana", 100);
-            tituloJuego1 = Label.label("" + PalabraElegida.getPalabra().get(1).getLetra().toString(), "Verdana", 100);
-            tituloJuego2 = Label.label("" + PalabraElegida.getPalabra().get(0).getLetra().toString(), "Verdana", 100);
+            Log.d("let0",let0);
+            Log.d("let1",let1);
+            Log.d("let2",let2);
+
+            tituloJuego0 = Label.label(let0, "Verdana", 100);
+            tituloJuego1 = Label.label(let1, "Verdana", 100);
+            tituloJuego2 = Label.label(let2, "Verdana", 100);
             float AltoDelTitulo = tituloJuego0.getHeight()+tituloJuego1.getHeight()+tituloJuego2.getHeight();
-            tituloJuego0.setPosition(PantallaDelDispositivo.width/2 +80, 1100);
-            tituloJuego1.setPosition(PantallaDelDispositivo.width / 2, 1100);
-            tituloJuego2.setPosition(PantallaDelDispositivo.width / 2+30, 1100);
+            tituloJuego0.setPosition(PantallaDelDispositivo.width/2 +100, 1100);
+            tituloJuego1.setPosition(PantallaDelDispositivo.width / 2 +160, 1100);
+            tituloJuego2.setPosition(PantallaDelDispositivo.width / 2+ 220, 1100);
 
             super.addChild(tituloJuego0);
             super.addChild(tituloJuego1);
-           super.addChild(tituloJuego2);
+            super.addChild(tituloJuego2);
 
         }
 
@@ -530,6 +560,8 @@ public class ClaseJuego {
         }
 
         void detectarColisiones() {
+            CCColor3B colorPuntaje= new CCColor3B(255,0,0);
+
             int idLetra= l.getId();
             String path=("letra"+idLetra+".png");
             pos =-1;
@@ -543,15 +575,19 @@ public class ClaseJuego {
                     //agrgo a palabra momento  y comparo contra lograt
 
                     pos= PalabraElegida.contieneLetra(LetraVerif);
+
                     //hacer un swith por cada ves que encuentra letra
                     // para cambiae una letra que no jay .set, y cambio el lbl
                     //cuando la creo .add
                     if(PalabraMomentanea!=null && pos>-1) {
+
                         PalabraMomentanea.add(LetraVerif);
+
                         boolean comparar = PalabraElegida.comparar(PalabraMomentanea);
                         if (comparar)
                         {
                             //tituloJuego = Label.label("Gano", "Verdana",50);
+                            tituloJuego0.setColor(colorPuntaje);
                         }
                     }
                 }
