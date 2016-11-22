@@ -50,7 +50,6 @@ public class Palabra implements Serializable {
 
     public void addLetra(letra l) {
         palabra.add(l);
-
     }
 
     public  boolean comparar(ArrayList<letra> palabraComparar){
@@ -61,12 +60,12 @@ public class Palabra implements Serializable {
         }
 
         // Sort and compare the two lists
-        letra l1,l2;
+        /*letra l1,l2;
         for (int i=0; i<palabra.size();i++) {
             l1 = palabra.get(i);
             l2 = palabraComparar.get(i);
             if (!l1.esIgual(l2)) return false;
-        }
+        }*/
 
         return true;
     }
