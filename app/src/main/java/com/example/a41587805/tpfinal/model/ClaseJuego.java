@@ -33,7 +33,7 @@ public class ClaseJuego {
     CCSize PantallaDelDispositivo;
     Sprite PersonaJugador,ImagenFondo, Letra;
     String letr ;
-    Label tituloJuego0,tituloJuego1, tituloJuego2, puntosJuego;
+    Label tituloJuego0,tituloJuego1, tituloJuego2, puntosJuego, tituloJuego;
     ArrayList<letra>arrEnemigos;
     ArrayList<Palabra>palabras;
     ArrayList<letra> letras;
@@ -42,6 +42,7 @@ public class ClaseJuego {
     Rect colision;
     int contador;
     letra l;
+
 
     int pos;
     public ClaseJuego(CCGLSurfaceView VistaDelJuego)
@@ -371,6 +372,7 @@ public class ClaseJuego {
             Log.d("let1",let1);
             Log.d("let2",let2);
 
+
             tituloJuego0 = Label.label(let0, "Verdana", 100);
             tituloJuego1 = Label.label(let1, "Verdana", 100);
             tituloJuego2 = Label.label(let2, "Verdana", 100);
@@ -379,9 +381,9 @@ public class ClaseJuego {
             tituloJuego1.setPosition(PantallaDelDispositivo.width / 2 +160, 1100);
             tituloJuego2.setPosition(PantallaDelDispositivo.width / 2+ 220, 1100);
 
-            super.addChild(tituloJuego0);
-            super.addChild(tituloJuego1);
-            super.addChild(tituloJuego2);
+            super.addChild(tituloJuego0,0);
+            super.addChild(tituloJuego1,1);
+            super.addChild(tituloJuego2,2);
 
         }
 
@@ -561,6 +563,7 @@ public class ClaseJuego {
 
         void detectarColisiones() {
             CCColor3B colorPuntaje= new CCColor3B(255,0,0);
+           // CCColor3B colorCorrecto= new CCColor3B()
 
             int idLetra= l.getId();
             String path=("letra"+idLetra+".png");
@@ -579,15 +582,35 @@ public class ClaseJuego {
                     //hacer un swith por cada ves que encuentra letra
                     // para cambiae una letra que no jay .set, y cambio el lbl
                     //cuando la creo .add
-                    if(PalabraMomentanea!=null && pos>-1) {
 
+                    if(PalabraMomentanea!=null && pos>-1) {
+                    switch (pos)
+                    {
+                        case 0:
+                            tituloJuego0.setColor(colorPuntaje);
+                            Log.d("hubo colision", " letra 0");
+                            break;
+                        case 1:
+                            tituloJuego1.setColor(colorPuntaje);
+                            Log.d("hubo colision", " letra 1");
+                            break;
+                        case 2:
+                            tituloJuego2.setColor(colorPuntaje);
+                            Log.d("hubo colision", " letra 2");
+                            break;
+
+
+                    }
                         PalabraMomentanea.add(LetraVerif);
 
                         boolean comparar = PalabraElegida.comparar(PalabraMomentanea);
                         if (comparar)
                         {
-                            //tituloJuego = Label.label("Gano", "Verdana",50);
-                            tituloJuego0.setColor(colorPuntaje);
+                            tituloJuego0.removeChild(0, true);
+                            tituloJuego0.removeChild(1, true);
+                            tituloJuego0.removeChild(2, true);
+                            tituloJuego = Label.label("Gano", "Verdana",50);
+
                         }
                     }
                 }
