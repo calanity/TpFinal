@@ -32,7 +32,8 @@ public class letra
     }
 
     public boolean esIgual(letra l2) {
-        return letra.equals(l2);
+
+        return letra.equals(l2.getLetra());
     }
 
     public int getId() {

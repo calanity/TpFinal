@@ -5,8 +5,11 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import org.cocos2d.actions.Scheduler;
+import org.cocos2d.actions.instant.CallFunc;
+import org.cocos2d.actions.interval.DelayTime;
 import org.cocos2d.actions.interval.MoveTo;
 import org.cocos2d.actions.interval.ScaleBy;
+import org.cocos2d.actions.interval.Sequence;
 import org.cocos2d.layers.Layer;
 import org.cocos2d.nodes.Director;
 import org.cocos2d.nodes.Label;
@@ -40,7 +43,7 @@ public class ClaseJuego {
     Palabra PalabraElegida;
     ArrayList<letra>PalabraMomentanea;
     Rect colision;
-    int contador;
+    int contadordeColisiones, contadorColisionesMalas;
     letra l;
 
 
@@ -71,22 +74,22 @@ public class ClaseJuego {
     {
         //0
         letra alef= new letra("letra1.png","א");
-        //alef.setId(1);
+        alef.setId(1);
         letras.add(alef);
 
         //1
         letra bet= new letra("letra2.png","ב");
-        //bet.setId(2);
+        bet.setId(2);
         letras.add(bet);
 
         //2
         letra guimel= new letra("letra3.png","ג");
-        //guimel.setId(3);
+        guimel.setId(3);
         letras.add(guimel);
 
         //3
         letra dalet= new letra("letra4.png","ד" );
-        //dalet.setId(4);
+        dalet.setId(4);
         letras.add(dalet);
 
         //4
@@ -126,7 +129,7 @@ public class ClaseJuego {
         //11
         letra lamed= new letra("letra12.png", "ל");
         lamed.setId(12);
-        letras.add(jaf);
+        letras.add(lamed);
 
 
         //12
@@ -183,6 +186,7 @@ public class ClaseJuego {
     }
 
     private Scene Inicio()
+
     {
         Scene escenaDevolver= Scene.node();
         CapaFondo capaFondo= new CapaFondo();
@@ -192,22 +196,84 @@ public class ClaseJuego {
         return escenaDevolver;
     }
 
+    private Scene Gano()
+    {
+        Scene escenaDevolver2= Scene.node();
+        CapaGano capaPausa= new CapaGano();
+        escenaDevolver2.addChild(capaPausa, -10);
+        return escenaDevolver2;
+    }
+
+    class  CapaGano extends  Layer
+    {
+        public CapaGano()
+        {
+            ponerBoton();
+        }
+
+        private  void  ponerBoton()
+        {
+            this.setIsTouchEnabled(true);
+            //en el onCLick del boton, lo mando a que vaya de vuelta a inicio
+            tituloJuego = Label.label("ganaste", "Verdana", 50);
+            tituloJuego.setPosition(500,100);
+            this.addChild(tituloJuego);
+            this.runAction(Sequence.actions(DelayTime.action(2.0f), CallFunc.action(this, "GanasteDone")));
+
+
+        }
+        public void GanasteDone()
+        {
+            Director.sharedDirector().replaceScene(Inicio());
+        }
+    }
+
+    private Scene Perdio()
+    {
+        Scene escenaDevolver2= Scene.node();
+        CapaPerdio capaperdio= new CapaPerdio();
+        escenaDevolver2.addChild(capaperdio, -10);
+        return escenaDevolver2;
+    }
+
+    class  CapaPerdio extends  Layer
+    {
+        public CapaPerdio()
+        {
+            ponerBoton();
+        }
+
+        private  void  ponerBoton()
+        {
+            this.setIsTouchEnabled(true);
+            //en el onCLick del boton, lo mando a que vaya de vuelta a inicio
+            tituloJuego = Label.label("Perdiste", "Verdana", 50);
+            tituloJuego.setPosition(500,100);
+            this.addChild(tituloJuego);
+            this.runAction(Sequence.actions(DelayTime.action(2.0f), CallFunc.action(this, "PerdioDonde")));
+
+
+        }
+        public void PerdioDonde()
+        {
+            Director.sharedDirector().replaceScene(Inicio());
+        }
+    }
+
     class CapaFondo extends Layer
     {
         public CapaFondo()
         {
            PonerImagenFondo();
-
-
         }
 
         private void PonerImagenFondo()
-    {
-        ImagenFondo= Sprite.sprite("kotel.jpg");
-        ImagenFondo.setPosition(PantallaDelDispositivo.width/2, PantallaDelDispositivo.height/2);
-        ImagenFondo.runAction(ScaleBy.action(0.01f, 2.7f, 2.8f));
-        super.addChild(ImagenFondo);
-    }
+        {
+            ImagenFondo= Sprite.sprite("kotel.jpg");
+            ImagenFondo.setPosition(PantallaDelDispositivo.width/2, PantallaDelDispositivo.height/2);
+            ImagenFondo.runAction(ScaleBy.action(0.01f, 2.7f, 2.8f));
+            super.addChild(ImagenFondo);
+        }
 
 
 
@@ -223,6 +289,7 @@ public class ClaseJuego {
             //jhkikhkhjh
             PonerPersonaPosicionInicial();
             palabras= new ArrayList<>();
+            PalabraMomentanea = new ArrayList<>();
             CargoLetras();
             CargarPalabras();
             PonerTituloJuego();
@@ -241,7 +308,7 @@ public class ClaseJuego {
                 }
             };
             Timer Reloj = new Timer();
-            Reloj.schedule(PonerUnaLetra, 0, 1000);
+            Reloj.schedule(PonerUnaLetra, 0, 1200);
 
             TimerTask VerificarImpactos = new TimerTask() {
                 @Override
@@ -251,7 +318,7 @@ public class ClaseJuego {
                 }
             };
             Timer RelojVerificarImpactos = new Timer();
-            RelojVerificarImpactos.schedule(VerificarImpactos, 0, 200);
+            RelojVerificarImpactos.schedule(VerificarImpactos, 0, 250);
             this.setIsTouchEnabled(true);
 
 
@@ -363,7 +430,7 @@ public class ClaseJuego {
             Random random= new Random();
             int let = random.nextInt(3)+1 ;
             //String mostrar= palabras.get(1).getPal();
-            PalabraElegida= palabras.get(2);
+            PalabraElegida= palabras.get(let);
             String let0= String.valueOf(PalabraElegida.getPalabra().get(2).getLetra());
             String let1= PalabraElegida.getPalabra().get(1).getLetra().toString();
             String let2= PalabraElegida.getPalabra().get(0).getLetra().toString();
@@ -390,7 +457,7 @@ public class ClaseJuego {
         public void PonerPuntaje() {
             super.removeChild(puntosJuego, true);
             //contador++;
-            puntosJuego = Label.label("Letras agarradas " + contador, "Verdana", 50);
+            puntosJuego = Label.label("Letras restantes " + (10 - contadorColisionesMalas), "Verdana", 50);
             float AltoDelTitulo = puntosJuego.getHeight();
             puntosJuego.setPosition(PantallaDelDispositivo.width / 2, PantallaDelDispositivo.height - AltoDelTitulo / 2);
             super.addChild(puntosJuego);
@@ -562,66 +629,91 @@ public class ClaseJuego {
         }
 
         void detectarColisiones() {
-            CCColor3B colorPuntaje= new CCColor3B(255,0,0);
-           // CCColor3B colorCorrecto= new CCColor3B()
+            CCColor3B colorPuntaje= new CCColor3B(245,101,101);//rojo
+            CCColor3B colorPuntaje2= new CCColor3B(153,153,255);//lila
+
+            // CCColor3B colorCorrecto= new CCColor3B()
 
             int idLetra= l.getId();
             String path=("letra"+idLetra+".png");
             pos =-1;
             boolean HuboColision = false;
-           //letra letraColisionada = new letra(path,"f");
+            letra letraColisionada = new letra("letra1.png","א");
             for (letra LetraVerif : arrEnemigos) {
                 if (InterseccionEntreSprites(PersonaJugador, LetraVerif.getSprite())) {
                     HuboColision = true;
-                    //letraColisionada = LetraVerif;
+
+                    letraColisionada = LetraVerif;
                     //preugnto por la palabra elegida,si existe en que pos
                     //agrgo a palabra momento  y comparo contra lograt
 
+
                     pos= PalabraElegida.contieneLetra(LetraVerif);
 
-                    //hacer un swith por cada ves que encuentra letra
-                    // para cambiae una letra que no jay .set, y cambio el lbl
-                    //cuando la creo .add
+                    Log.d("de, tectarColis","contiene Letra" + LetraVerif.getLetra() + " pos:" + pos);
 
-                    if(PalabraMomentanea!=null && pos>-1) {
-                    switch (pos)
-                    {
-                        case 0:
-                            tituloJuego0.setColor(colorPuntaje);
-                            Log.d("hubo colision", " letra 0");
-                            break;
-                        case 1:
-                            tituloJuego1.setColor(colorPuntaje);
-                            Log.d("hubo colision", " letra 1");
-                            break;
-                        case 2:
-                            tituloJuego2.setColor(colorPuntaje);
-                            Log.d("hubo colision", " letra 2");
-                            break;
+                    if(pos>-1) {
 
-
-                    }
-                        PalabraMomentanea.add(LetraVerif);
-
-                        boolean comparar = PalabraElegida.comparar(PalabraMomentanea);
-                        if (comparar)
+                        switch (pos)
                         {
-                            tituloJuego0.removeChild(0, true);
-                            tituloJuego0.removeChild(1, true);
-                            tituloJuego0.removeChild(2, true);
-                            tituloJuego = Label.label("Gano", "Verdana",50);
+                            case 0:
+                                tituloJuego2.setColor(colorPuntaje2);
+                                Log.d("hubo colision", " letra 0");
+
+                                break;
+                            case 1:
+                                tituloJuego1.setColor(colorPuntaje2);
+                                Log.d("hubo colision", " letra 1");
+
+                                break;
+                            case 2:
+                                tituloJuego0.setColor(colorPuntaje2);
+                                Log.d("hubo colision", " letra 2");
+                                break;
 
                         }
+
+                    //hacer un swith por cada ves que encuentra letra
+                    // para cambiae una letra que no hay .set, y cambio el lbl
+                    //cuando la creo .add
+                //PalabraMomentanea!=null&&
+
+
+                        PalabraMomentanea.add(LetraVerif);
+//                        Log.d("Palabra momentanea:", PalabraMomentanea.get(0) + "-"+  PalabraMomentanea.get(1)+ "-"+  PalabraMomentanea.get(2));
+                        Log.d("Palabra momentanea", "size:" +PalabraMomentanea.size());
+                    }
+                    else
+                    {
+                        contadorColisionesMalas= contadorColisionesMalas+1;
+                        PonerPuntaje();
+
                     }
                 }
             }
 
             if (HuboColision == true) {
                 Log.d("Detectar colision", "hubo colision");
+                contadordeColisiones++;
+                Log.d("cant colisiones", String.valueOf(contadordeColisiones));
+                arrEnemigos.remove(letraColisionada);
+                removeChild(letraColisionada.getSprite(),true);
+
                //PonerPuntaje();
-               /* if (letraColisionada != null) {
-                    arrEnemigos.remove(letraColisionada);
-                }*/
+               // boolean comparar = PalabraElegida.comparar(PalabraMomentanea);
+                if (PalabraMomentanea.size() >= 3)
+                {
+                   Log.d("es correcta", "gano!");
+                   Director.sharedDirector().replaceScene(Gano());
+                }
+
+                if (contadorColisionesMalas==10 && PalabraMomentanea.size() < 6)
+                {
+                    Log.d("es incorrecta", "perdio!");
+                    Director.sharedDirector().replaceScene(Perdio());
+
+                }
+
             } else {
                 Log.d("Detectar colision", " No hubo colision");
             }
@@ -630,3 +722,20 @@ public class ClaseJuego {
 
     }
 }
+
+
+
+/*
+boolean comparar = PalabraElegida.comparar(PalabraMomentanea);
+                if (comparar)
+                {
+                            /*tituloJuego0.removeChild(0, true);
+                            tituloJuego1.removeChild(1, true);
+                            tituloJuego2.removeChild(2, true);
+tituloJuego = Label.label("Gano", "Verdana",50);
+        Log.d("comparo palabras", " es igual");
+        //buscar como hacer el cambio de pantalla y que se reinicie el juego
+
+
+        }
+ */
