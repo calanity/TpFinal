@@ -428,7 +428,7 @@ public class ClaseJuego {
         public void PonerTituloJuego() {
             Palabra palabra= new Palabra();
             Random random= new Random();
-            int let = random.nextInt(3)+1 ;
+            int let = random.nextInt(3) ;
             //String mostrar= palabras.get(1).getPal();
             PalabraElegida= palabras.get(let);
             String let0= String.valueOf(PalabraElegida.getPalabra().get(2).getLetra());
@@ -701,13 +701,14 @@ public class ClaseJuego {
 
                //PonerPuntaje();
                // boolean comparar = PalabraElegida.comparar(PalabraMomentanea);
-                if (PalabraMomentanea.size() >= 3)
+                if (PalabraMomentanea.size() >= 5)
                 {
                    Log.d("es correcta", "gano!");
                    Director.sharedDirector().replaceScene(Gano());
                 }
 
-                if (contadorColisionesMalas==10 && PalabraMomentanea.size() < 6)
+                //&& PalabraMomentanea.size() < 6
+                if (contadorColisionesMalas==10)
                 {
                     Log.d("es incorrecta", "perdio!");
                     Director.sharedDirector().replaceScene(Perdio());
